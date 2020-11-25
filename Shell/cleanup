@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# <c> 26.02.2018 by Can Karka
+
+# Bild löschen
+cd ../temp
+sudo rm bild.png
+
+# kompilierte Java Dateien löschen
+cd ../Java/bin
+sudo rm ZufallsgeneratorV2.class

@@ -1,0 +1,155 @@
+#!/bin/bash
+#
+# <c> 26.02.2018 by Can Karka
+
+LOG=$0.log
+EINGABE=$1
+EINGABE=${EINGABE^^}
+
+if [ "$EINGABE" == "" ]
+then
+	read -p "Preview ausführen? J/N   >" EINGABE
+else
+	VOR=${EINGABE:0:1}
+	NACH=${EINGABE:1}
+
+	if [ "$VOR" != "-" ]
+	then
+		echo "Parametertyp konnte nicht erkannt werden!"
+		echo "Bitte nutzen Sie ein '-' um einen Parameter anzugeben!"
+		exit
+	fi
+
+	if [ "$NACH" == "J" ]
+	then
+		EINGABE="J"
+	fi
+
+	if [ "$NACH" == "N" ]
+	then
+		EINGABE="N"
+	fi
+
+	if [ "$NACH" == "-HELP" ]
+	then
+		echo "Help Menu"
+		echo "---------"
+		echo
+
+		echo "Mögliche Optionen:"
+		echo "   J      >   Kameravorschau ausführen,"
+		echo "              um die Kamera korrekt positionieren zu können."
+		echo
+		echo "   N      >   Kameravorschau nicht ausführen,"
+		echo "              um Hauptprogramm direkt ausführen zu können."
+		echo
+		echo "-help     >   Dieses Menü aufrufen"
+		
+		# Log Datei schreiben
+		DATE=$(date +%Y-%m-%d_%H:%M:%S)
+		echo $DATE >>$LOG
+		echo >>$LOG
+		echo "Help Menü wurde aufgerufen" >>$LOG
+		echo "-----------------------------------------------------" >>$LOG
+		echo >>$LOG
+		exit
+	fi
+fi
+
+
+EINGABE=${EINGABE^^}
+if [ "$EINGABE" == "J" ]
+then
+	# Preview ausführen
+	echo
+	echo "Info: Führe Preview aus ..."
+	cd ../Python
+	sudo python3 FacharbeitKameraPreview.py
+	echo "ok: Preview ausgeführt"
+	
+	echo
+	
+	# Log Datei schreiben
+	echo "Info: Log Datei wird geschrieben ..."
+	DATE=$(date +%Y-%m-%d_%H:%M:%S)
+	echo $DATE >>$LOG
+	echo >>$LOG
+	echo "Preview wurde ausgeführt" >>$LOG
+	echo "-----------------------------------------------------" >>$LOG
+	echo >>$LOG
+	echo "ok: Log Datei erfolgreich geschrieben"
+	exit
+fi
+
+if [ "$EINGABE" == "N" ]
+then
+	# Python Programm ausführen
+	echo "Info: Führe Python Script aus ..."
+	cd ../Python
+	sudo python3 FacharbeitKamera.py
+	echo "ok: Bild wurde geschossen"
+
+	echo
+
+	# Java Programm kompilieren
+	echo "Info: Java Programm wird kompiliert ..."
+	cd ../Java/src
+	sudo javac ZufallsgeneratorV2.java
+	echo "ok: Java Programm kompiliert"
+
+	echo
+
+	# Java Programm ausführen
+	echo "Info: Java Programm wird ausgeführt ..."
+	echo "-----------------------------------------------------"
+	cd ..
+	sudo java zufallsgenerator.ZufallsgeneratorV2
+	echo
+	echo "-----------------------------------------------------"
+	echo "ok: Java Programm wurde ausgeführt"
+
+	echo
+
+	# Log Datei schreiben
+	echo "Info: Log Datei wird geschrieben ..."
+	DATE=$(date +%Y-%m-%d_%H:%M:%S)
+	echo $DATE >>$LOG
+	echo >>$LOG
+	sudo java zufallsgenerator.ZufallsgeneratorV2 >>$LOG
+	echo "-----------------------------------------------------" >>$LOG
+	echo >>$LOG
+	echo "ok: Log Datei erfolgreich geschrieben"
+
+	echo
+	
+	# Cleanup Script aufrufen
+	echo "Info: Cleanup wird durchgeführt ..."
+	cd ../Shell/
+	sudo ./cleanup
+	echo "ok: Cleanup beendet"
+	exit
+fi
+
+if [ "$EINGABE" != "J" ] || [ "$EINGABE" != "N" ]
+then
+	echo
+	echo "Falsche Eingabe!"
+	echo "Falls Sie Hilfe benötigen, rufen Sie den Parameter '--help' auf!"
+
+	# Für Log Datei überprüfen, ob Eingabe leer
+	if [ "$EINGABE" == "" ]
+	then
+		EINGABE="NICHTS"
+	fi
+
+	# Log Datei schreiben
+	echo
+	DATE=$(date +%Y-%m-%d_%H:%M:%S)
+	echo $DATE >>$LOG
+	echo >>$LOG
+	echo "Eine falsche Eingabe wurde getätigt: <$EINGABE>" >>$LOG
+	echo "-----------------------------------------------------" >>$LOG
+	echo >>$LOG
+	exit
+fi
+
