@@ -360,8 +360,7 @@ public class Zufallsgenerator
 		Zufallsgenerator programm = new Zufallsgenerator();
 		
 		// location bestimmen
-		location = "./beispielbilder/100x100/2.png"; // Beispiel Location
-		//location = ""; // Richtige Location
+		location = "../../beispielbilder/100x100/2.png"; // Beispiel Location
 		
 		// Datei erstellen
 		file = new File(location);

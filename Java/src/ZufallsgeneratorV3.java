@@ -243,7 +243,7 @@ public class ZufallsgeneratorV3
 		System.out.println("Regressionstest: ");
 		for ( int t = 1; t <= 6; t++ )
 			{
-			if ( t != testeBild("./beispielbilder/100x100/"+t+".png") )
+			if ( t != testeBild("../../beispielbilder/100x100/"+t+".png") )
 				{
 				System.err.println("Fehler bei Bild "+t+"! \n");
 				System.exit(1);
@@ -261,7 +261,7 @@ public class ZufallsgeneratorV3
 		
 		programm.RegressionsTest();
 		
-		int counter = programm.testeBild("./beispielbilder/100x100/6.png"); // Beispiel Location
+		int counter = programm.testeBild("../../beispielbilder/100x100/6.png"); // Beispiel Location
 		
 		System.out.println();
 		programm.ErgebnisAusgeben(counter);
