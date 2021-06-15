@@ -10,7 +10,7 @@ The first version was the more "naive" method, assuming that every black pixel c
 
 The algorithm tries to shrink every black circle from each side at the same time, until only one black pixel is left per circle. After that it runs through the bitmap and counts every black pixel, assuming that the count is the right count of black circles.
 
-# Facharbeit V2
+# V2
 
 This algorithm still tries to shrink the black circles, but it tries to do it recursively by taking the neighbour pixel count into account.
 Similar to GameOfLife, it checks the neighbour count and only removes the current pixel, if any neighbour is a black pixel. By that all black pixel of a circle are removed at once, leaving only one guaranteed black pixel per circle. The ending is the same, running through the bitmap and counting the black pixels.
